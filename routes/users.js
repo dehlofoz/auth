@@ -23,10 +23,10 @@ const {
   sendUserDeleted,
   sendMe
 } = require("../controllers/users");
-
+usersRouter.get("/me", checkAuth, sendMe);
 usersRouter.get("/users", findAllUsers, filterPassword, sendAllUsers);
 usersRouter.get("/users/:id", findUserById, filterPassword, sendUserById);
-usersRouter.get("/me", checkAuth, sendMe)
+
 usersRouter.post(
   "/users",
   findAllUsers,
