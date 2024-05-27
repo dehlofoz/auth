@@ -23,7 +23,6 @@ const login = (req, res) => {
             _id: user._id, 
             username: user.username, 
             email: user.email,
-            password: user.password, 
             jwt: token });
           })
     .catch(error => {
