@@ -2,7 +2,6 @@
 const categories = require('../models/category');
 
 const findAllCategories = async (req, res, next) => {
-  console.log("GET /categories");
   req.categoriesArray = await categories.find({});
   next();
 };
@@ -15,7 +14,7 @@ const createCategory = async (req, res, next) => {
     next();
   } catch (error) {
       res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Ошибка создания категории" }));
+      res.status(400).send(JSON.stringify({ message: "Ошибка создания категории" }));
   }
 };
 
@@ -58,18 +57,18 @@ const checkIsCategoryExists = async (req, res, next) => {
   });
   if (isInArray) {
     res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Категория с таким названием уже существует" }));
+    res.status(400).send(JSON.stringify({ message: "Категория с таким названием уже существует" }));
   } else {
-    next();
+      next();
   }
 };
 
 const checkEmptyName = async (req, res, next) => {
   if (!req.body.name) {
     res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Введите название категории" }));
+    res.status(400).send(JSON.stringify({ message: "Заполните все поля" }));
   } else {
-    next();
+      next();
   }
 };
 
