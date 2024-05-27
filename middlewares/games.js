@@ -39,7 +39,10 @@ const findGameById = async (req, res, next) => {
     req.game = await games
       .findById(req.params.id) 
       .populate("categories") 
-      .populate("users"); 
+      .populate({
+        path: 'users',
+        select: "-password"
+      }); 
     next(); 
   } catch (error) {
     
@@ -71,6 +74,10 @@ const deleteGame = async (req, res, next) => {
 };
 
 const checkEmptyFields = async (req, res, next) => {
+  if(req.isVoteRequest) {
+    next();
+    return;
+  }
   if (
     !req.body.title ||
     !req.body.description ||
@@ -120,7 +127,6 @@ const checkIfUsersAreSafe = async (req, res, next) => {
         res.status(400).send(JSON.stringify({ message: "Нельзя удалять пользователей или добавлять больше одного пользователя" }));
   }
 };
-
 
 const checkIsVoteRequest = async (req, res, next) => {
 
