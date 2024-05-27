@@ -1,34 +1,32 @@
-const sendAllCategories = (req, res) => {
-    
-  res.setHeader('Content-Type', 'application/json');
-  
-  res.end(JSON.stringify(req.categoriesArray));
+const sendAllGames = (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(req.gamesArray));
 };
 
-const sendCategoryCreated = (req, res) => {
+const sendGameById = (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(req.category));
+  res.end(JSON.stringify(req.game));
 };
 
-const sendCategoryById = (req, res) => {
+const sendGameCreated = (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(req.category));
+  res.end(JSON.stringify(req.game));
 };
 
-const sendCategoryUpdated = (req, res) => {
+const sendGameUpdated = (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  res.status(200).send(JSON.stringify({ message: "Категория обновлена" }));
+  res.status(200).send(JSON.stringify({ message: "Игра обновлена" }));
 };
 
-const sendCategoryDeleted = (req, res) => {
+const sendGameDelete = (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(req.category));
+  res.status(200).send(JSON.stringify({ message: "Игра удалена" }));
 };
 
 module.exports = {
-  sendAllCategories,
-  sendCategoryCreated,
-  sendCategoryById,
-  sendCategoryUpdated,
-  sendCategoryDeleted
-}
+  sendAllGames,
+  sendGameById,
+  sendGameCreated,
+  sendGameUpdated,
+  sendGameDelete,
+};
