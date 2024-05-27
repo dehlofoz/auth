@@ -10,9 +10,8 @@ const app = express();
 const PORT = 3001;
 
 connectToDatabase();
-
-app.use(
-  cors, 
+app.use(cors)
+app.use( 
   cookieParser(),
   bodyParser.json(),
   pagesRouter,
