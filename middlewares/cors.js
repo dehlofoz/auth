@@ -2,6 +2,7 @@ const allowedCors = [
   "https://dehlofozfront.nomoredomainswork.ru",
   "http://dehlofozfront.nomoredomainswork.ru",
   "http://localhost:3000",
+  "http://localhost:3001"
 
 
  ];

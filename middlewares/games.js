@@ -1,118 +1,100 @@
-
-const games = require("../models/game");
-
+const game = require("../models/game");
 
 const findAllGames = async (req, res, next) => {
-  
-  if(req.query["categories.name"]) { 
-    req.gamesArray = await games.findGameByCategory(req.query["categories.name"]);
+
+  if(req.query["categories.name"]) {
+    req.gamesArray = await game.findGameByCategory(req.query["categories.name"]);
     next();
     return;
   }
 
-  req.gamesArray = await games
-    .find({})
-    .populate("categories")
-    .populate({
-      path: "users",
-      select: "-password" 
-    })
-  next();
-};
+  req.gamesArray = await game
+  .find({})
+  .populate({
+    path: "users",
+    select: "-password"
+  })
+  .populate("categories");
+  next()
+}
 
+const findGameById = async (req, res, next) => {
+  console.log("GET /game/:id");
+  try {
+    req.game = await game.findById(req.params.id).populate("categories").populate("users");
+    next();
+  } catch {
+    res.setHeader("Content-Type", "application/json");
+    res.status(400).send(JSON.stringify({ message: "Не удалось найти игру" }));
+  }
+}
 
 const createGame = async (req, res, next) => {
-  console.log("POST /games");
+  console.log("POOST /games")
   try {
-    console.log(req.body);
-    req.game = await games.create(req.body);
+    console.log(req.body)
+    req.game = await game.create(req.body);
     next();
   } catch (error) {
     res.setHeader("Content-Type", "application/json");
-    res.status(400).send(JSON.stringify({ message: "Ошибка создания игры" }));
+    res.status(400).send(JSON.stringify({ message: "Не удалось создать игру" }));
   }
-};
-
-const findGameById = async (req, res, next) => {
-  try {
-      
-    req.game = await games
-      .findById(req.params.id) 
-      .populate("categories") 
-      .populate({
-        path: 'users',
-        select: "-password"
-      }); 
-    next(); 
-  } catch (error) {
-    
-    res.setHeader("Content-Type", "application/json");
-    res.status(404).send(JSON.stringify({ message: "Игра не найдена" }));
-  }
-};
+  
+}
 
 const updateGame = async (req, res, next) => {
   try {
-      
-    req.game = await games.findByIdAndUpdate(req.params.id, req.body);
+    console.log("Отработал")
+    req.game = await game.findByIdAndUpdate(req.params.id, req.body)
     next();
   } catch (error) {
-    res.setHeader("Content-Type", "application/json");
-    res.status(400).send(JSON.stringify({ message: "Ошибка обновления игры" }));
+    res.setHeader("Content-Type", "aplication/json");
+    res.status(400).send(JSON.stringify({ message: "Ошбика обновления игры" }))
   }
-};
+}
 
 const deleteGame = async (req, res, next) => {
   try {
-    
-    req.game = await games.findByIdAndDelete(req.params.id);
+    req.game = await game.findByIdAndDelete(req.params.id);
     next();
   } catch (error) {
-    res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Ошибка удаления игры" }));
+    res.setHeader("Content-Type", "aplication/json");
+    res.status(400).send(JSON.stringify({ message: "Не удалось удалить игру" }));
   }
-};
+}
 
 const checkEmptyFields = async (req, res, next) => {
-  if(req.isVoteRequest) {
+  if (req.isVoteRequest) {
     next();
-    return;
+    return
   }
   if (
-    !req.body.title ||
     !req.body.description ||
     !req.body.image ||
     !req.body.link ||
     !req.body.developer
   ) {
-    
-    res.setHeader("Content-Type", "application/json");
-    res.status(400).send(JSON.stringify({ message: "Заполни все поля" }));
+    res.setHeader("Content-Type", "aplication/json");
+    res.status(400).send(JSON.stringify({ message: "Одно из полей пустое. Заполните все поля" }))
   } else {
     next();
   }
 };
 
-const checkIsGameExists = async (req, res, next) => {
-  const isInArray = req.gamesArray.find((game) => {
-    return req.body.title === game.title;
-  });
-  if (isInArray) {
-    res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Игра с таким названием уже существует" }));
-  } else {
-    next();
-  }
-};
 
 const checkIfCategoriesAvaliable = async (req, res, next) => {
+  if (req.isVoteRequest) {
+    next();
+    return
+  }
+  
   if (!req.body.categories || req.body.categories.length === 0) {
-    res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Выберите хотя бы одну категорию" }));
+    res.setHeader("Content-Type", "aplication/json");
+    res.status(400).send(JSON.stringify({ message: "Заполните категорию" }));
   } else {
     next();
   }
-};
+}
 
 const checkIfUsersAreSafe = async (req, res, next) => {
   if (!req.body.users) {
@@ -123,17 +105,31 @@ const checkIfUsersAreSafe = async (req, res, next) => {
     next();
     return;
   } else {
-    res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Нельзя удалять пользователей или добавлять больше одного пользователя" }));
+    res.setHeader("Content-Type", "aplication/json");
+    res.status(400).send(JSON.stringify({ message: "Нельзя удалять пользователей или добавлять больше одного пользователя" }));
   }
-};
+}
+
+const checkIsGameExists = async (req, res, next) => {
+  const isInArray = req.gamesArray.find((game) => {
+    return req.body.name === game.title
+  });
+
+  if (isInArray) {
+    res.setHeader("Content-Type", "aplication/json");
+    res.status(400).send(JSON.stringify({ message: "игра с таким названием уже существует" }));
+  } else {
+    next();
+  }
+
+}
 
 const checkIsVoteRequest = async (req, res, next) => {
-
-  if (Object.keys(req.body).length === 1 && req.body.users) {
-    req.isVoteRequest = true;
-  }
-  next();
+  // Если в запросе присылают только поле users
+if (Object.keys(req.body).length === 1 && req.body.users) {
+  req.isVoteRequest = true;
+}
+next();
 };
 
 
@@ -144,8 +140,8 @@ module.exports = {
   updateGame,
   deleteGame,
   checkEmptyFields,
-  checkIsGameExists,
   checkIfCategoriesAvaliable,
   checkIfUsersAreSafe,
+  checkIsGameExists,
   checkIsVoteRequest
 };

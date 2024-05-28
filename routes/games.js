@@ -23,7 +23,7 @@ const {
 } = require("../middlewares/games");
 const { checkAuth }  = require("../middlewares/auth");
 gamesRouter.get("/games", findAllGames, sendAllGames);
-gamesRouter.get("/games/:id", findGameById, sendGameById);
+
 gamesRouter.post(
   "/games",
   findAllGames,
@@ -34,7 +34,7 @@ gamesRouter.post(
   createGame,
   sendGameCreated
 );
-
+gamesRouter.get("/games/:id", findGameById, sendGameById);
 gamesRouter.put(
   "/games/:id",
   findGameById,
