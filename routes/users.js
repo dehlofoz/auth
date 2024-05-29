@@ -1,6 +1,6 @@
 const usersRouter = require("express").Router();
 const {
-  
+
   findAllUsers,
   findUserById,
   checkEmptyNameAndEmailAndPassword,
@@ -53,3 +53,6 @@ usersRouter.delete(
   sendUserDeleted
 );
 module.exports = usersRouter;
+
+
+

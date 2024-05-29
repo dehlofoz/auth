@@ -1,4 +1,4 @@
-const allowedCors = [ 
+const allowedCors = [
   "https://dehlofozfront.nomoredomainswork.ru",
   "http://dehlofozfront.nomoredomainswork.ru",
   "http://localhost:3000",
@@ -20,5 +20,10 @@ function cors(req, res, next) {
   next();
 }
 
-  
+
 module.exports = cors;
+
+
+
+
+

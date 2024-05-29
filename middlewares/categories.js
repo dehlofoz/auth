@@ -1,4 +1,3 @@
-
 const categories = require('../models/category');
 
 const findAllCategories = async (req, res, next) => {
@@ -31,7 +30,7 @@ const findCategoryById = async (req, res, next) => {
 
 const updateCategory = async (req, res, next) => {
   try {
-      
+
     req.category = await categories.findByIdAndUpdate(req.params.id, req.body);
     next();
   } catch (error) {
@@ -42,7 +41,7 @@ const updateCategory = async (req, res, next) => {
 
 const deleteCategory = async (req, res, next) => {
   try {
-    
+
     req.category = await categories.findByIdAndDelete(req.params.id);
     next();
   } catch (error) {
@@ -84,3 +83,7 @@ module.exports = {
   checkIsCategoryExists,
   checkEmptyName
 }
+
+
+
+

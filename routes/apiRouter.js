@@ -11,3 +11,5 @@ apiRouter.use("/api", categoriesRouter);
 apiRouter.use("/api", usersRouter);
 apiRouter.use("/api", authRouter)
 module.exports = apiRouter
+
+

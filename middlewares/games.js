@@ -25,7 +25,7 @@ const findGameById = async (req, res, next) => {
     next();
   } catch {
     res.setHeader("Content-Type", "application/json");
-    res.status(400).send(JSON.stringify({ message: "Не удалось найти игру" }));
+    res.status(400).send(JSON.stringify({ message: "Не удалось найти игру" }));
   }
 }
 
@@ -39,7 +39,7 @@ const createGame = async (req, res, next) => {
     res.setHeader("Content-Type", "application/json");
     res.status(400).send(JSON.stringify({ message: "Не удалось создать игру" }));
   }
-  
+
 }
 
 const updateGame = async (req, res, next) => {
@@ -87,7 +87,7 @@ const checkIfCategoriesAvaliable = async (req, res, next) => {
     next();
     return
   }
-  
+
   if (!req.body.categories || req.body.categories.length === 0) {
     res.setHeader("Content-Type", "aplication/json");
     res.status(400).send(JSON.stringify({ message: "Заполните категорию" }));
@@ -145,3 +145,19 @@ module.exports = {
   checkIsGameExists,
   checkIsVoteRequest
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

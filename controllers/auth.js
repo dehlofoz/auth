@@ -1,4 +1,3 @@
-
 const jwt = require("jsonwebtoken");
 const users = require("../models/user.js");
 const path = require("path");
@@ -20,8 +19,8 @@ const login = (req, res) => {
       res
         .status(200)
         .send({
-            _id: user._id, 
-            username: user.username, 
+            _id: user._id,
+            username: user.username,
             email: user.email,
             jwt: token });
           })

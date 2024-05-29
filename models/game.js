@@ -6,34 +6,41 @@ const categoryModel = require("./category");
 const gameSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
   },
   description: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
   },
   developer: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
   },
   image: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
   },
   link: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
   },
   users: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: userModel 
+      ref: userModel,
+      unique: true, 
     }
   ],
   categories: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: categoryModel 
+      ref: categoryModel,
+      unique: true, 
     }
   ]
 });

@@ -1,5 +1,4 @@
-
-  const categoriesRouter = require('express').Router();
+const categoriesRouter = require('express').Router();
   const { checkAuth } = require("../middlewares/auth")
   const {
     findAllCategories,
@@ -10,7 +9,7 @@
     checkIsCategoryExists,
     checkEmptyName
   } = require("../middlewares/categories")
- 
+
   const {
     sendAllCategories,
     sendCategoryById,
@@ -48,4 +47,4 @@ categoriesRouter.delete(
   sendCategoryDeleted
 )
 module.exports = categoriesRouter;
-  
+
